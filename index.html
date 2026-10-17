@@ -1,662 +1,1144 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0F0E13">
+  <title>The Friendship Dossier | A Birthday Letter for Wachu</title>
 
-  <meta
-    name="description"
-    content="Seven years in the making. A birthday tribute to Machu."
-  >
+  <script src="https://cdn.tailwindcss.com"></script>
 
-  <title>The Friendship Files | Seven Years in the Making</title>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            parchment: {
+              bg: '#0F0E13',
+              card: '#16151C',
+              border: '#2A2735',
+              text: '#E2DFD8',
+              muted: '#A29E95',
+              accent: '#D4AF37',
+              subtleRed: '#B84A4A',
+              subtleBlue: '#4A7BB8'
+            }
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'Georgia', 'serif'],
+            cormorant: ['Cormorant Garamond', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap"
-    rel="stylesheet"
-  >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 24px;
+    }
+
+    body {
+      background-color: #0F0E13;
+      background-image:
+        radial-gradient(rgba(212, 175, 55, 0.035) 1px, transparent 0);
+      background-size: 24px 24px;
+      color: #E2DFD8;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0F0E13;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #2A2735;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3D394C;
+    }
+
+    .gold-glow-text {
+      text-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+    }
+
+    .ink-line {
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(212, 175, 55, 0.3),
+        transparent
+      );
+    }
+
+    .ink-line-subtle {
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(162, 158, 149, 0.2),
+        transparent
+      );
+    }
+
+    .fade-enter {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-enter-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes wave {
+      0%, 100% {
+        height: 4px;
+      }
+      50% {
+        height: 20px;
+      }
+    }
+
+    .wave-bar {
+      height: 5px;
+      animation: wave 1.2s ease-in-out infinite;
+    }
+
+    .wave-bar:nth-child(2) { animation-delay: 0.15s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.3s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.45s; }
+    .wave-bar:nth-child(5) { animation-delay: 0.6s; }
+    .wave-bar:nth-child(6) { animation-delay: 0.25s; }
+    .wave-bar:nth-child(7) { animation-delay: 0.4s; }
+
+    .audio-playing .wave-bar {
+      animation-play-state: running;
+    }
+
+    .audio-paused .wave-bar {
+      animation-play-state: paused;
+    }
+
+    .wax-seal {
+      transition: transform 0.4s ease, border-color 0.4s ease;
+    }
+
+    .wax-seal:hover {
+      transform: scale(1.03);
+    }
+
+    .memory-card {
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .memory-card:hover {
+      transform: translateY(-3px);
+      background-color: rgba(212, 175, 55, 0.055);
+    }
+
+    .letter-content {
+      animation: letterReveal 0.7s ease both;
+    }
+
+    @keyframes letterReveal {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #dustCanvas {
+      pointer-events: none;
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 2px solid #D4AF37;
+      outline-offset: 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
 
-<body>
+<body class="font-cormorant text-lg antialiased selection:bg-parchment-accent selection:text-black min-h-screen">
 
-  <!-- CINEMATIC OPENING -->
+  <!-- Ambient dust -->
+  <canvas id="dustCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40" aria-hidden="true"></canvas>
 
-  <section class="intro" id="intro">
-    <div class="intro-content">
+  <main class="relative z-10 max-w-3xl mx-auto px-6 py-12 md:py-20 space-y-24">
 
-      <p class="eyebrow">AN ORIGINAL PRODUCTION</p>
+    <!-- INTRO -->
+    <section id="intro" class="min-h-[85vh] flex flex-col justify-between items-center text-center pt-8">
 
-      <h1>THE FRIENDSHIP<br>FILES</h1>
-
-      <p class="intro-subtitle">Seven Years in the Making</p>
-
-      <div class="intro-line"></div>
-
-      <p class="intro-description">
-        A birthday tribute to one of my favourite humans.
-      </p>
-
-      <button class="button button-light" id="enterButton">
-        Enter the universe <span>↗</span>
-      </button>
-
-      <p class="intro-credit">
-        Written, directed and overthought by Watati Ngaruiya.
-      </p>
-
-    </div>
-  </section>
-
-
-  <!-- MAIN EXPERIENCE -->
-
-  <main id="mainExperience" class="hidden">
-
-    <nav class="topbar">
-      <a href="#home" class="brand">THE FRIENDSHIP FILES</a>
-
-      <button
-        id="musicButton"
-        class="text-button"
-        aria-pressed="false"
-      >
-        ▶ Play the director's commentary
-      </button>
-    </nav>
-
-
-    <!-- SECTION 1: COVER -->
-
-    <section class="hero section" id="home">
-
-      <div class="hero-label">
-        <span>CASE NO. 2019</span>
-        <span>PERSONAL ARCHIVES</span>
+      <div class="space-y-2 text-xs font-sans tracking-[0.25em] text-parchment-accent uppercase opacity-80 pt-6">
+        <span>The Friendship Dossier</span>
+        <span class="mx-2">•</span>
+        <span>Case Opened 2019</span>
       </div>
 
-      <div class="hero-content">
+      <div class="my-auto space-y-8 max-w-xl">
 
-        <p class="eyebrow">A STORY ABOUT FRIENDSHIP</p>
+        <p class="font-serif italic text-2xl md:text-3xl font-light text-parchment-text leading-relaxed opacity-90">
+          "Some people enter your life unexpectedly…<br>
+          and somehow become part of the story."
+        </p>
 
-        <h2>
-          Seven years.<br>
-          Countless stories.<br>
-          <em>One good human.</em>
+        <div class="ink-line w-32 mx-auto"></div>
+
+        <p class="font-serif text-lg md:text-xl text-parchment-muted italic font-light">
+          A personal memoir and birthday tribute for one of my favourite humans.
+        </p>
+
+        <div class="pt-6">
+          <button
+            onclick="enterExperience()"
+            class="inline-flex items-center gap-3 text-sm font-sans tracking-widest uppercase text-parchment-accent hover:text-white transition-colors duration-300 py-2 border-b border-parchment-accent/30 hover:border-parchment-accent"
+          >
+            <span>Enter the dossier</span>
+            <span class="text-xs">➔</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="text-xs font-sans text-parchment-muted/60 tracking-widest uppercase">
+        Scroll softly
+      </div>
+    </section>
+
+    <!-- OPENING AUDIO -->
+    <section id="opening-audio" class="space-y-6 max-w-2xl mx-auto">
+
+      <div class="text-center space-y-2">
+        <span class="text-xs font-sans text-parchment-accent tracking-widest uppercase">
+          Before We Begin
+        </span>
+
+        <h2 class="font-serif text-2xl md:text-3xl text-parchment-text italic font-normal">
+          A little introduction
         </h2>
 
-        <p class="hero-copy">
-          Some people enter your life in chaos and become part
-          of the story before you realise how important they are.
-        </p>
-
-        <a href="#timeline" class="button button-dark">
-          Open the files <span>↓</span>
-        </a>
-
-      </div>
-
-      <div class="hero-footer">
-        <span>SUBJECT: WACHU</span>
-        <span>STATUS: FRIENDSHIP ONGOING</span>
-      </div>
-
-    </section>
-
-
-    <!-- SECTION 2: TIMELINE -->
-
-    <section class="section timeline-section" id="timeline">
-
-      <div class="section-heading">
-        <p class="eyebrow">FILE 001 / THE BEGINNING</p>
-
-        <h2>Every story<br>has an opening scene.</h2>
-
-        <p>
-          Ours started in 2019, when two journalists met while one was
-          figuring out their lives and careers and the other one was hell bent on making sure they succeed.
+        <p class="text-sm font-sans text-parchment-muted">
+          Press play. I have a few things to say.
         </p>
       </div>
 
-      <div class="timeline">
+      <div id="openingAudioBox" class="bg-parchment-card/80 border border-parchment-border/80 rounded-2xl p-6 md:p-8 shadow-xl space-y-4">
 
-        <article class="timeline-item">
-          <span class="timeline-year">2019</span>
+        <audio id="openingAudio" preload="metadata">
+          <source src="audio/opening.mp3" type="audio/mpeg">
+          Your browser does not support audio playback.
+        </audio>
 
-          <div>
-            <h3>The pilot episode</h3>
-
-            <p>
-              Two journalists meet. A friendship begins.
-              Neither of them has any idea how many seasons
-              this story will get.
-            </p>
-          </div>
-        </article>
-
-        <article class="timeline-item">
-          <span class="timeline-year">2020–24</span>
-
-          <div>
-            <h3>The unscripted seasons</h3>
-
-            <p>
-              Different chapters, changing circumstances,
-              movies, lunches and conversations that became
-              part of the routine.
-            </p>
-          </div>
-        </article>
-
-        <article class="timeline-item">
-          <span class="timeline-year">2026</span>
-
-          <div>
-            <h3>Still showing up</h3>
-
-            <p>
-              Seven years later, the friendship continues.
-              And apparently, neither of us has mastered
-              the art of taking photographs together.
-            </p>
-          </div>
-        </article>
-
-      </div>
-
-      <div class="photo-joke">
-        <p class="eyebrow">IMPORTANT FINDING</p>
-
-        <h3>Things we somehow never photograph.</h3>
-
-        <button class="button button-outline" id="evidenceButton">
-          Examine the evidence
-        </button>
-
-        <div id="evidenceList" class="evidence-list hidden">
-
-          <p>Exhibit A: All those movie outings.</p>
-
-          <p>Exhibit B: The lunches that follow the movies.</p>
-
-          <p>Exhibit C: Conversations that deserve their own podcast.</p>
-
-          <p>
-            Exhibit D: Seven years of friendship with practically
-            no photographic documentation.
-          </p>
-
-          <p class="evidence-ending">
-            At this point, I think we need to investigate
-            whether either of us owns a camera. You know its funny given our careers :)
-          </p>
-
-        </div>
-      </div>
-
-    </section>
-
-
-    <!-- SECTION 3: THE EVIDENCE -->
-
-    <section class="section evidence-section" id="evidence">
-
-      <div class="section-heading">
-        <p class="eyebrow">FILE 002 / EXHIBITS A–D</p>
-
-        <h2>The little things<br>are never little.</h2>
-
-        <p>
-          A collection of documented incidents involving
-          excessive thoughtfulness.
-        </p>
-      </div>
-
-      <div class="card-grid">
-
-        <button class="memory-card" data-card="jackets">
-
-          <span class="card-number">EXHIBIT A</span>
-
-          <span class="card-icon">01</span>
-
-          <h3>The jacket situation</h3>
-
-          <span class="card-hint">Open evidence ↗</span>
-
-        </button>
-
-
-        <button class="memory-card" data-card="bazinga">
-
-          <span class="card-number">EXHIBIT B</span>
-
-          <span class="card-icon">02</span>
-
-          <h3>The Bazinga incident</h3>
-
-          <span class="card-hint">Open evidence ↗</span>
-
-        </button>
-
-
-        <button class="memory-card" data-card="friendship">
-
-          <span class="card-number">EXHIBIT C</span>
-
-          <span class="card-icon">03</span>
-
-          <h3>When it mattered</h3>
-
-          <span class="card-hint">Open evidence ↗</span>
-
-        </button>
-
-
-        <button class="memory-card" data-card="movies">
-
-          <span class="card-number">EXHIBIT D</span>
-
-          <span class="card-icon">04</span>
-
-          <h3>The cinematic universe</h3>
-
-          <span class="card-hint">Open evidence ↗</span>
-
-        </button>
-
-      </div>
-
-      <div
-        id="memoryModal"
-        class="memory-modal hidden"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modalTitle"
-      >
-
-        <div class="modal-content">
+        <div class="flex items-center gap-4">
 
           <button
-            class="modal-close"
-            id="modalClose"
-            aria-label="Close"
+            id="openingPlayBtn"
+            onclick="toggleAudio('opening')"
+            aria-label="Play opening narration"
+            class="w-12 h-12 rounded-full border border-parchment-accent/50 hover:border-parchment-accent bg-parchment-accent/10 hover:bg-parchment-accent/20 flex items-center justify-center text-parchment-accent transition-all duration-300 shrink-0"
           >
-            ×
+            <i id="openingPlayIcon" class="fas fa-play text-sm ml-0.5"></i>
           </button>
 
-          <p class="eyebrow" id="modalEyebrow"></p>
+          <div class="flex-1 min-w-0 space-y-2">
 
-          <h3 id="modalTitle"></h3>
+            <div class="flex justify-between gap-3 text-xs font-sans text-parchment-muted">
+              <span id="openingStatus" aria-live="polite">Ready when you are</span>
+              <span id="openingTime">0:00 / 0:00</span>
+            </div>
 
-          <p id="modalText"></p>
+            <input
+              id="openingSeek"
+              type="range"
+              min="0"
+              max="100"
+              value="0"
+              step="0.1"
+              aria-label="Seek opening narration"
+              class="w-full accent-yellow-600 cursor-pointer"
+              oninput="seekAudio('opening')"
+            >
 
+            <div id="openingWave" class="flex items-center gap-1.5 h-6 audio-paused">
+              <div class="wave-bar w-1 bg-parchment-accent/40 rounded-full"></div>
+              <div class="wave-bar w-1 bg-parchment-accent/60 rounded-full"></div>
+              <div class="wave-bar w-1 bg-parchment-accent/80 rounded-full"></div>
+              <div class="wave-bar w-1 bg-parchment-accent rounded-full"></div>
+              <div class="wave-bar w-1 bg-parchment-accent/70 rounded-full"></div>
+              <div class="wave-bar w-1 bg-parchment-accent/50 rounded-full"></div>
+              <div class="wave-bar w-1 bg-parchment-accent/30 rounded-full"></div>
+              <div class="flex-1 h-px bg-parchment-border ml-2"></div>
+            </div>
+
+          </div>
         </div>
 
+        <p class="text-xs font-sans text-parchment-muted/70 italic text-center pt-2">
+          A voice note, just for you.
+        </p>
       </div>
-
     </section>
 
+    <div class="ink-line my-12"></div>
 
-    <!-- SECTION 4: INTERESTS -->
+    <!-- CHAPTER I: ARCHIVES -->
+    <section id="archives" class="space-y-8 max-w-2xl mx-auto">
 
-    <section class="section interests-section" id="interests">
+      <div class="space-y-2">
+        <span class="text-xs font-sans text-parchment-accent tracking-widest uppercase">
+          Chapter I
+        </span>
 
-      <div class="section-heading">
+        <h2 class="font-serif text-3xl md:text-4xl text-parchment-text font-normal">
+          The Friendship Archives
+        </h2>
 
-        <p class="eyebrow">FILE 003 / SUBJECT PROFILE</p>
+        <p class="text-sm font-sans text-parchment-muted">
+          Uncaptured on camera, remembered in full.
+        </p>
+      </div>
 
-        <h2>The Machu<br>universe.</h2>
+      <div class="space-y-6 text-parchment-text/90 leading-relaxed text-xl font-light">
 
         <p>
-          A few known facts about the subject.
-          Further research remains necessary.
+          We met in <span class="text-parchment-accent">2019</span>, each finding our way through life and journalism.
+          I don't think either of us could have predicted the friendship that would come out of it.
+        </p>
+
+        <p>
+          Somewhere between career changes, cinema outings, lunches, conversations, and the many things life has thrown our way, you became one of the people I genuinely value having around.
+        </p>
+
+        <p>
+          And despite being journalists, two people who work with stories and cameras, we have somehow managed to accumulate an impressive number of memories and almost no photographic evidence.
         </p>
 
       </div>
 
-      <div class="interest-list">
+      <!-- MEMORY CAROUSEL -->
+      <div class="pt-4">
+        <div class="border-l border-parchment-accent/40 pl-6 space-y-4 my-6">
 
-        <article class="interest-item">
-
-          <span class="interest-number">01</span>
-
-          <div>
-            <p class="eyebrow">CINEMA</p>
-
-            <h3>The Marvel files</h3>
-
-            <p>
-              Seven years of friendship and countless Marvel
-              films, yet the investigator has never formally
-              established the subject's favourite character.
-            </p>
-
-            <p class="small-note">
-              Research deficiency identified. Follow-up interview pending.
-            </p>
+          <div class="text-xs font-sans text-parchment-accent uppercase tracking-widest flex items-center gap-2">
+            <i class="fas fa-camera text-xs"></i>
+            Exhibit A: Unrecorded Moments
           </div>
 
-        </article>
-
-
-        <article class="interest-item">
-
-          <span class="interest-number">02</span>
-
-          <div>
-            <p class="eyebrow">FOOTBALL</p>
-
-            <h3>The Arsenal question</h3>
-
-            <p>
-              A man with many admirable qualities and one
-              particularly interesting football allegiance.
-            </p>
-
-            <p class="small-note">
-              Loyalty: documented. Football-related stress: anticipated.
-            </p>
+          <div
+            id="unrecordedNote"
+            class="font-serif italic text-lg text-parchment-muted transition-opacity duration-300"
+            aria-live="polite"
+          >
+            "Some memories deserve to be documented. Apparently, ours did not get the memo."
           </div>
 
-        </article>
-
-
-        <article class="interest-item">
-
-          <span class="interest-number">03</span>
-
-          <div>
-            <p class="eyebrow">THE WRITTEN WORD</p>
-
-            <h3>A new chapter</h3>
-
-            <p>
-              Here's to biographies that offer perspective,
-              history that challenges assumptions, politics
-              that provoke thought and books that leave
-              something behind.
-            </p>
-
-          </div>
-
-        </article>
-
-
-        <article class="interest-item">
-
-          <span class="interest-number">04</span>
-
-          <div>
-            <p class="eyebrow">BEHIND THE CAMERA</p>
-
-            <h3>Two editors. No footage.</h3>
-
-            <p>
-              We both edit videos for a living, yet our
-              seven-year friendship archive is somehow
-              missing the one thing editors usually have:
-              usable footage.
-            </p>
-
-            <p class="small-note">
-              Post-production cannot fix footage that was never recorded.
-            </p>
-
-          </div>
-
-        </article>
-
-      </div>
-
-    </section>
-
-
-    <!-- SECTION 5: THE LETTER -->
-
-    <section class="section letter-section" id="letter">
-
-      <div class="letter-envelope">
-
-        <p class="eyebrow">FILE 004 / PERSONAL CORRESPONDENCE</p>
-
-        <h2>A note from<br>Watatingaroya.</h2>
-
-        <p>
-          Some things deserve to be said properly.
-        </p>
-
-        <button class="button button-light" id="letterButton">
-          Open your letter <span>↗</span>
-        </button>
-
-      </div>
-
-      <article id="letterContent" class="letter-content hidden">
-
-        <p class="eyebrow">DEAR MACHU,</p>
-
-        <h3>I'm glad we met.</h3>
-
-        <p>
-          Looking back, I'm grateful it happened.
-        </p>
-
-        <p>
-          You've been one of the most consistent people in my
-          life. Through different seasons, changing circumstances
-          and some genuinely difficult moments, you've made
-          time for me.
-        </p>
-
-        <p>
-          You've listened when I needed to talk, offered advice
-          when I needed perspective, and shown up in ways that
-          I don't think I've always properly acknowledged.
-        </p>
-
-        <p>
-          I remember the little things, too. The jackets,
-          the Bazinga T-shirt, the Friends hoodie. The lunches,
-          the movies, the conversations that continue to a point
-          where we have no idea where it started.
-        </p>
-
-        <p>
-          Those things might seem ordinary to you, but they've
-          never felt ordinary to me. They remind me that
-          thoughtfulness doesn't always need an announcement.
-          Sometimes it's simply remembering what someone loves,
-          noticing what they need, and making an effort.
-        </p>
-
-        <p>
-          When things were difficult with my mum, you were there
-          to listen. I don't think I've ever fully expressed
-          how much that meant to me.
-        </p>
-
-        <p>
-          I haven't forgotten it, and I don't take it for granted.
-        </p>
-
-        <p>
-          I hope this new year of your life brings you good things.
-          I hope you find books that challenge you, films that
-          stay with you, reasons to laugh until your stomach hurts,
-          opportunities that excite you, and plenty of moments
-          that remind you how much you are appreciated.
-        </p>
-
-        <p>
-          And may your Arsenal-related experiences be slightly
-          less stressful this year. I can only wish you so much.
-        </p>
-
-        <p>
-          Thank you for being my friend, Wachu. I'm genuinely
-          glad we met, and I'm grateful that seven years later,
-          we still get to share pieces of our lives with each other.
-        </p>
-
-        <p>Happy birthday.</p>
-
-        <p class="letter-signature">
-          From Watati Ngaruiya,<br>
-          K24, Nairobi.
-        </p>
-
-        <div class="letter-audio">
-
-          <p class="eyebrow">A LITTLE SOMETHING EXTRA</p>
-
-          <p>
-            Reading is one thing. Hearing it from me is another.
-          </p>
-
-          <audio id="letterAudio" controls preload="none">
-            <source src="audio/letter.mp3" type="audio/mpeg">
-            Your browser does not support audio playback.
-          </audio>
-
-          <p class="small-note">
-            This recording will appear once the audio file is added.
-          </p>
-
-        </div>
-
-      </article>
-
-    </section>
-
-
-    <!-- BIRTHDAY WISHES -->
-
-    <section class="section wishes-section" id="wishes">
-
-      <p class="eyebrow">FILE 005 / THE NEXT CHAPTER</p>
-
-      <h2>Here's to everything<br>still to come.</h2>
-
-      <div class="wish-grid">
-
-        <article class="wish-card">
-          <span>01 / THE PLOT TWIST</span>
-          <p>May life surprise you in the best possible ways.</p>
-        </article>
-
-        <article class="wish-card">
-          <span>02 / THE NEXT CHAPTER</span>
-          <p>
-            May you discover books, films, ideas and experiences
-            that expand your world.
-          </p>
-        </article>
-
-        <article class="wish-card">
-          <span>03 / THE WINNING SEASON</span>
-          <p>May Arsenal give you something worth celebrating.</p>
-        </article>
-
-        <article class="wish-card">
-          <span>04 / THE GOOD STUFF</span>
-          <p>
-            May you have good health, meaningful work,
-            genuine laughter and people who show up for you.
-          </p>
-        </article>
-
-      </div>
-
-      <div class="final-message">
-
-        <p class="eyebrow">END CREDITS</p>
-
-        <h3>Seven years down.<br>More stories to come.</h3>
-
-        <p>Happy birthday, Wachu.</p>
-
-        <button class="button button-dark" id="creditsButton">
-          Wait. One more thing.
-        </button>
-
-      </div>
-
-    </section>
-
-
-    <!-- POST-CREDITS SCENE -->
-
-    <section id="postCredits" class="post-credits hidden">
-
-      <div class="post-credits-content">
-
-        <p class="eyebrow">A MARVEL-LEVEL POST-CREDITS SCENE</p>
-
-        <h2>WAIT.</h2>
-
-        <p class="post-credits-intro">
-          Seven years deserve one final scene.
-        </p>
-
-        <button class="button button-light" id="revealButton">
-          Play post-credits scene
-        </button>
-
-        <div id="postCreditsMessage" class="hidden">
-          
-          </h3><div class="text-parchment-accent">[SYSTEM FILE: FRIENDSHIP PROTOCOL 2026]</div>
-          
-          <p>> Subject has successfully completed 7 years of friendship.</p>
-          <p>> Status: Active.</p>
-          <p class="text-center text-parchment-text pt-2 font-serif italic text-sm">
-            "Friendship File #007 will return in 2027."
-          </p>
-        </div>
-      </div>
-
-          <p class="post-credits-final">
-            Happy birthday, Wachu.
-          </p>
-
-          <p class="post-credits-joke">
-            Now, for the love of journalism, let us take
-            at least one decent photograph together this year.
-          </p>
-
-          <button class="text-button" id="backToTop">
-            ↥ Revisit the files
+          <button
+            id="memoryButton"
+            onclick="revealNextUnrecordedNote()"
+            class="text-xs font-sans tracking-widest uppercase text-parchment-accent hover:underline focus:outline-none"
+          >
+            ➔ Unseal Memory (<span id="unrecordedIndex">1</span>/5)
           </button>
 
         </div>
+      </div>
+    </section>
+
+    <div class="ink-line-subtle"></div>
+
+    <!-- CHAPTER II: LITTLE THINGS -->
+    <section id="little-things" class="space-y-8 max-w-2xl mx-auto">
+
+      <div class="space-y-2">
+        <span class="text-xs font-sans text-parchment-accent tracking-widest uppercase">
+          Chapter II
+        </span>
+
+        <h2 class="font-serif text-3xl md:text-4xl text-parchment-text font-normal">
+          The Little Things
+        </h2>
+
+        <p class="text-sm font-sans text-parchment-muted">
+          Some things stay with you long after the moment has passed.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+
+        <article class="memory-card p-6 border border-parchment-border/70 rounded-xl bg-parchment-card/40">
+          <div class="flex items-start gap-4">
+            <div class="text-parchment-accent text-2xl pt-1">
+              <i class="fas fa-shirt"></i>
+            </div>
+
+            <div class="space-y-2">
+              <h3 class="font-serif text-2xl italic text-parchment-text">
+                The Jacket Collection
+              </h3>
+
+              <p class="text-lg leading-relaxed text-parchment-text/80">
+                Seven jackets. Yes, seven. You apparently decided that my inability to tolerate cold was a problem you personally needed to solve. I still wear them, by the way. They were thoughtful gifts, and I haven't forgotten that.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="memory-card p-6 border border-parchment-border/70 rounded-xl bg-parchment-card/40">
+          <div class="flex items-start gap-4">
+            <div class="text-parchment-accent text-2xl pt-1">
+              <i class="fas fa-laugh"></i>
+            </div>
+
+            <div class="space-y-2">
+              <h3 class="font-serif text-2xl italic text-parchment-text">
+                Bazinga!
+              </h3>
+
+              <p class="text-lg leading-relaxed text-parchment-text/80">
+                The Sheldon Cooper T-shirt from The Big Bang Theory. An objectively excellent gift, and one that has earned its place in the archives.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="memory-card p-6 border border-parchment-border/70 rounded-xl bg-parchment-card/40">
+          <div class="flex items-start gap-4">
+            <div class="text-parchment-accent text-2xl pt-1">
+              <i class="fas fa-tv"></i>
+            </div>
+
+            <div class="space-y-2">
+              <h3 class="font-serif text-2xl italic text-parchment-text">
+                The Friends Hoodie
+              </h3>
+
+              <p class="text-lg leading-relaxed text-parchment-text/80">
+                Another addition to the collection. At this point, your contribution to my wardrobe deserves its own acknowledgement section.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="memory-card p-6 border border-parchment-border/70 rounded-xl bg-parchment-card/40">
+          <div class="flex items-start gap-4">
+            <div class="text-parchment-accent text-2xl pt-1">
+              <i class="fas fa-film"></i>
+            </div>
+
+            <div class="space-y-2">
+              <h3 class="font-serif text-2xl italic text-parchment-text">
+                Cinema, Lunch, Repeat
+              </h3>
+
+              <p class="text-lg leading-relaxed text-parchment-text/80">
+                The films, the conversations afterwards, and the lunches that came with them. Ordinary plans that became some of the memories I value most.
+              </p>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <div class="ink-line-subtle"></div>
+
+    <!-- CHAPTER III: CHARACTER -->
+    <section id="character" class="space-y-10 max-w-2xl mx-auto">
+
+      <div class="space-y-2">
+        <span class="text-xs font-sans text-parchment-accent tracking-widest uppercase">
+          Chapter III
+        </span>
+
+        <h2 class="font-serif text-3xl md:text-4xl text-parchment-text font-normal">
+          Notes on Character
+        </h2>
+
+        <p class="text-sm font-sans text-parchment-muted">
+          A few observations about the person behind the file.
+        </p>
+      </div>
+
+      <div class="space-y-8 divide-y divide-parchment-border/40">
+
+        <article class="pt-6 space-y-3">
+          <div class="flex flex-wrap justify-between items-baseline gap-2">
+            <h3 class="font-serif text-2xl text-parchment-text italic">
+              The Cinematic Standard
+            </h3>
+            <span class="text-xs font-sans text-parchment-accent">
+              MCU Alignment
+            </span>
+          </div>
+
+          <p class="text-parchment-text/80 text-lg leading-relaxed">
+            A Marvel enthusiast with strong opinions about stories, characters, and how a plot should unfold. I respect the commitment to the cinematic universe, even when it means I have to listen to another explanation of why a particular film matters.
+          </p>
+        </article>
+
+        <article class="pt-6 space-y-3">
+          <div class="flex flex-wrap justify-between items-baseline gap-2">
+            <h3 class="font-serif text-2xl text-parchment-text italic">
+              The Arsenal Supporter
+            </h3>
+            <span class="text-xs font-sans text-parchment-subtleRed">
+              North London
+            </span>
+          </div>
+
+          <p class="text-parchment-text/80 text-lg leading-relaxed">
+            Supporting Arsenal through every season requires a special kind of loyalty. I admire your commitment. I will continue to question your football-related decisions, but I admire the commitment.
+          </p>
+        </article>
+
+        <article class="pt-6 space-y-3">
+          <div class="flex flex-wrap justify-between items-baseline gap-2">
+            <h3 class="font-serif text-2xl text-parchment-text italic">
+              The Reader
+            </h3>
+            <span class="text-xs font-sans text-parchment-accent">
+              New Chapter
+            </span>
+          </div>
+
+          <p class="text-parchment-text/80 text-lg leading-relaxed">
+            I like seeing you make room for books and new ideas. Here's to the stories you'll discover, the perspectives you'll encounter, and the things that stay with you after you've turned the final page.
+          </p>
+        </article>
+
+        <article class="pt-6 space-y-3">
+          <div class="flex flex-wrap justify-between items-baseline gap-2">
+            <h3 class="font-serif text-2xl text-parchment-text italic">
+              The Storyteller
+            </h3>
+            <span class="text-xs font-sans text-parchment-subtleBlue">
+              Communications
+            </span>
+          </div>
+
+          <p class="text-parchment-text/80 text-lg leading-relaxed">
+            You spend so much of your professional life helping communicate stories that matter, particularly those involving missing persons and the people searching for them. Today, I hope you get to step away from the work for a moment and enjoy being celebrated yourself.
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+    <div class="ink-line"></div>
+
+    <!-- CHAPTER IV: THE LETTER -->
+    <section id="birthday-letter" class="space-y-8 max-w-2xl mx-auto text-center">
+
+      <div class="space-y-2">
+        <span class="text-xs font-sans text-parchment-accent tracking-widest uppercase">
+          Chapter IV
+        </span>
+
+        <h2 class="font-serif text-3xl md:text-5xl text-parchment-text font-normal">
+          Things I Hope You Know
+        </h2>
+
+        <p class="text-sm font-sans text-parchment-muted italic">
+          This part is a little more serious.
+        </p>
+      </div>
+
+      <div class="py-6">
+
+        <button
+          id="waxSealBox"
+          onclick="unfoldLetter()"
+          aria-expanded="false"
+          aria-controls="unfoldedLetter"
+          class="wax-seal cursor-pointer group inline-block p-8 rounded-full border border-parchment-accent/30 hover:border-parchment-accent bg-parchment-card/40"
+        >
+          <div class="w-16 h-16 rounded-full bg-parchment-accent/20 border border-parchment-accent flex items-center justify-center text-parchment-accent text-2xl group-hover:scale-110 transition-transform mx-auto">
+            <i class="fas fa-stamp"></i>
+          </div>
+
+          <p class="text-xs font-sans text-parchment-accent uppercase tracking-widest mt-4">
+            Break Wax Seal to Open
+          </p>
+        </button>
+
+        <article
+          id="unfoldedLetter"
+          hidden
+          class="letter-content text-left bg-parchment-card/90 border border-parchment-border rounded-2xl p-6 md:p-10 space-y-6 mt-6 text-xl font-light leading-relaxed shadow-2xl"
+        >
+
+          <p class="font-serif italic text-2xl text-parchment-accent">
+            Dear Wachu,
+          </p>
+
+          <p>
+            I wanted to make something for you that was a little more personal than a birthday message.
+          </p>
+
+          <p>
+            I'm genuinely grateful that our paths crossed. You've been a good friend to me, and I don't think I always say that enough.
+          </p>
+
+          <p>
+            Thank you for making time for me, inviting me out, listening when I needed someone to talk to, and being there during some really difficult periods of my life.
+          </p>
+
+          <p>
+            When things were hard with my mum, you listened, offered advice, and made time for me. You didn't have to take on any of that, but you showed up anyway. I don't think I've properly expressed how much I appreciated it.
+          </p>
+
+          <p>
+            And then there are the little things. The jackets, the Bazinga T-shirt, the Friends hoodie. I remember them because they were thoughtful, and because sometimes the smallest gestures tell you a lot about a person.
+          </p>
+
+          <p>
+            I appreciate your humour, your generosity, and the ease of being able to spend time together without needing to turn everything into a big production.
+          </p>
+
+          <p>
+            Life has been unpredictable in many ways, and I'm grateful to have a friendship that has remained a good part of it. Thank you for being someone I can laugh with, talk to, and count on.
+          </p>
+
+          <p>
+            I hope this new chapter brings you opportunities you're proud of, good health, meaningful experiences, books worth reading, films worth watching, and plenty of reasons to be happy.
+          </p>
+
+          <p>
+            And may Arsenal give you enough wins to keep you going. I won't be responsible for any football-related disappointment.
+          </p>
+
+          <p>
+            Happy birthday, Wachu. I'm glad you're my friend, and I hope you know how much I appreciate you.
+          </p>
+
+          <div class="pt-4 border-t border-parchment-border/60 text-right font-serif italic text-parchment-accent">
+            With love and appreciation.
+          </div>
+
+        </article>
+      </div>
+    </section>
+
+    <!-- LETTER AUDIO -->
+    <section id="letter-audio" class="space-y-6 max-w-2xl mx-auto">
+
+      <div class="text-center space-y-2">
+        <span class="text-xs font-sans text-parchment-accent tracking-widest uppercase">
+          A Voice Note, Just for You
+        </span>
+
+        <h2 class="font-serif text-2xl md:text-3xl text-parchment-text italic font-normal">
+          One more thing
+        </h2>
+
+        <p class="text-sm font-sans text-parchment-muted">
+          When you're ready, listen to the letter in my own voice.
+        </p>
+      </div>
+
+      <div class="bg-parchment-card/80 border border-parchment-border/80 rounded-2xl p-6 md:p-8 shadow-xl space-y-4">
+
+        <audio id="letterAudio" preload="metadata">
+          <source src="audio/letter.mp3" type="audio/mpeg">
+          Your browser does not support audio playback.
+        </audio>
+
+        <div class="flex items-center gap-4">
+
+          <button
+            id="letterPlayBtn"
+            onclick="toggleAudio('letter')"
+            aria-label="Play birthday letter narration"
+            class="w-12 h-12 rounded-full border border-parchment-accent/50 hover:border-parchment-accent bg-parchment-accent/10 hover:bg-parchment-accent/20 flex items-center justify-center text-parchment-accent transition-all duration-300 shrink-0"
+          >
+            <i id="letterPlayIcon" class="fas fa-play text-sm ml-0.5"></i>
+          </button>
+
+          <div class="flex-1 min-w-0 space-y-2">
+
+            <div class="flex justify-between gap-3 text-xs font-sans text-parchment-muted">
+              <span id="letterStatus" aria-live="polite">Ready when you are</span>
+              <span id="letterTime">0:00 / 0:00</span>
+            </div>
+
+            <input
+              id="letterSeek"
+              type="range"
+              min="0"
+              max="100"
+              value="0"
+              step="0.1"
+              aria-label="Seek birthday letter narration"
+              class="w-full accent-yellow-600 cursor-pointer"
+              oninput="seekAudio('letter')"
+            >
+
+            <div id="letterWave" class="flex items-center gap-1.5 h-6 audio-paused">
+              <div class="wave-bar w-1 bg-parchment-accent/40 rounded-full"></div>
+              <div class="wave-bar w-1 bg-parchment-accent/60 rounded-full"></div>
+              <div class="wave-bar w-1 bg-parchment-accent/80 rounded-full"></div>
+              <div class="wave-bar w-1 bg-parchment-accent rounded-full"></div>
+              <div class="wave-bar w-1 bg-parchment-accent/70 rounded-full"></div>
+              <div class="wave-bar w-1 bg-parchment-accent/50 rounded-full"></div>
+              <div class="wave-bar w-1 bg-parchment-accent/30 rounded-full"></div>
+              <div class="flex-1 h-px bg-parchment-border ml-2"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <p class="text-xs font-sans text-parchment-muted/70 italic text-center pt-2">
+          No rush. This one is worth listening to properly.
+        </p>
+
+      </div>
+    </section>
+
+    <div class="ink-line-subtle"></div>
+
+    <!-- CHAPTER V: BIRTHDAY WISHES -->
+    <section id="birthday-wishes" class="space-y-12 max-w-2xl mx-auto text-center pb-12">
+
+      <div class="space-y-2">
+        <span class="text-xs font-sans text-parchment-accent tracking-widest uppercase">
+          Chapter V
+        </span>
+
+        <h2 class="font-serif text-3xl md:text-5xl text-parchment-text font-normal">
+          Level 33 Unlocked
+        </h2>
+
+        <p class="text-sm font-sans text-parchment-muted italic">
+          For everything the next chapter has waiting for you.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
+
+        <article class="p-5 border-l border-parchment-accent/40 bg-parchment-card/30 space-y-1">
+          <div class="font-serif text-lg text-parchment-text italic">
+            The Plot Twist
+          </div>
+          <p class="text-sm font-sans text-parchment-muted">
+            May life surprise you in the best possible ways.
+          </p>
+        </article>
+
+        <article class="p-5 border-l border-parchment-accent/40 bg-parchment-card/30 space-y-1">
+          <div class="font-serif text-lg text-parchment-text italic">
+            Character Development
+          </div>
+          <p class="text-sm font-sans text-parchment-muted">
+            May you keep growing without losing what makes you who you are.
+          </p>
+        </article>
+
+        <article class="p-5 border-l border-parchment-accent/40 bg-parchment-card/30 space-y-1">
+          <div class="font-serif text-lg text-parchment-text italic">
+            The Next Chapter
+          </div>
+          <p class="text-sm font-sans text-parchment-muted">
+            May you find books, films, and places that expand your world.
+          </p>
+        </article>
+
+        <article class="p-5 border-l border-parchment-accent/40 bg-parchment-card/30 space-y-1">
+          <div class="font-serif text-lg text-parchment-subtleRed italic">
+            The Winning Season
+          </div>
+          <p class="text-sm font-sans text-parchment-muted">
+            May Arsenal give you legitimate reasons to celebrate.
+          </p>
+        </article>
 
       </div>
 
+      <!-- BIRTHDAY SURPRISE -->
+      <div class="pt-6 space-y-6">
+
+        <button
+          id="surpriseBtn"
+          onclick="triggerSurprise()"
+          aria-expanded="false"
+          aria-controls="surpriseMessage"
+          class="px-8 py-3 rounded-full border border-parchment-accent/60 text-parchment-accent font-sans text-xs tracking-widest uppercase hover:bg-parchment-accent hover:text-black transition-all duration-300"
+        >
+          ✦ Open Birthday Surprise
+        </button>
+
+        <div
+          id="surpriseMessage"
+          hidden
+          class="text-center space-y-3 p-6 bg-parchment-card/60 border border-parchment-border rounded-xl font-serif text-xl italic text-parchment-text"
+        >
+          <p>
+            "Thank you for being you, for showing up, and for making ordinary days a little better. Happy birthday, you absolute menace!"
+          </p>
+          <p class="text-sm font-sans not-italic text-parchment-muted">
+            End of file. Friendship status: active.
+          </p>
+        </div>
+
+        <!-- POST-CREDITS -->
+        <div class="pt-8">
+          <button
+            onclick="togglePostCredits()"
+            aria-expanded="false"
+            aria-controls="postCreditsBox"
+            id="postCreditsButton"
+            class="text-xs font-sans text-parchment-muted hover:text-parchment-accent tracking-widest uppercase underline transition-colors"
+          >
+            ✦ Read Post-Credits Teaser
+          </button>
+        </div>
+
+        <div
+          id="postCreditsBox"
+          hidden
+          class="p-6 bg-black/60 border border-parchment-accent/30 rounded-xl font-mono text-xs text-parchment-muted text-left space-y-3 max-w-md mx-auto"
+        >
+          <div class="text-parchment-accent">
+            [SYSTEM FILE: FRIENDSHIP PROTOCOL]
+          </div>
+
+          <p>&gt; Subject: Wachu</p>
+          <p>&gt; Status: Active.</p>
+          <p>&gt; Outstanding matter: Obtain photographic evidence.</p>
+          <p>&gt; Investigation status: Ongoing.</p>
+
+          <p class="text-center text-parchment-text pt-3 font-serif italic text-sm">
+            "The story continues. The camera roll remains suspiciously empty."
+          </p>
+        </div>
+
+      </div>
+
+      <footer class="pt-16 text-xs font-sans text-parchment-muted/50 tracking-widest uppercase">
+        Made especially for you • 2019–2026
+      </footer>
+
     </section>
-
-
-    <footer class="footer">
-      <p>THE FRIENDSHIP FILES</p>
-      <p>Written with love, edited with questionable footage.</p>
-      <p>© 2026 / A friendship production.</p>
-    </footer>
 
   </main>
 
+  <script>
+    /* ENTER EXPERIENCE */
+    function enterExperience() {
+      document.getElementById('opening-audio').scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
 
-  <!-- OPENING VOICE-OVER -->
+    /* AUDIO PLAYERS */
+    const audioPlayers = {
+      opening: {
+        audio: document.getElementById('openingAudio'),
+        button: document.getElementById('openingPlayBtn'),
+        icon: document.getElementById('openingPlayIcon'),
+        status: document.getElementById('openingStatus'),
+        time: document.getElementById('openingTime'),
+        seek: document.getElementById('openingSeek'),
+        wave: document.getElementById('openingWave')
+      },
 
-  <audio id="openingAudio" preload="none">
-    <source src="audio/opening.mp3" type="audio/mpeg">
-  </audio>
+      letter: {
+        audio: document.getElementById('letterAudio'),
+        button: document.getElementById('letterPlayBtn'),
+        icon: document.getElementById('letterPlayIcon'),
+        status: document.getElementById('letterStatus'),
+        time: document.getElementById('letterTime'),
+        seek: document.getElementById('letterSeek'),
+        wave: document.getElementById('letterWave')
+      }
+    };
 
+    function formatTime(seconds) {
+      if (!Number.isFinite(seconds)) {
+        return '0:00';
+      }
 
-  <script src="script.js"></script>
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = Math.floor(seconds % 60);
+
+      return `${minutes}:${String(remainingSeconds).padStart(2, '0')}`;
+    }
+
+    function updateAudioDisplay(name) {
+      const player = audioPlayers[name];
+      const audio = player.audio;
+
+      player.time.textContent =
+        `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+
+      if (Number.isFinite(audio.duration) && audio.duration > 0) {
+        player.seek.value = (audio.currentTime / audio.duration) * 100;
+      } else {
+        player.seek.value = 0;
+      }
+    }
+
+    function setAudioPlaying(name, playing) {
+      const player = audioPlayers[name];
+
+      if (playing) {
+        player.icon.className = 'fas fa-pause text-sm';
+        player.button.setAttribute(
+          'aria-label',
+          name === 'opening' ? 'Pause opening narration' : 'Pause birthday letter narration'
+        );
+
+        player.wave.classList.remove('audio-paused');
+        player.wave.classList.add('audio-playing');
+      } else {
+        player.icon.className = 'fas fa-play text-sm ml-0.5';
+        player.button.setAttribute(
+          'aria-label',
+          name === 'opening' ? 'Play opening narration' : 'Play birthday letter narration'
+        );
+
+        player.wave.classList.remove('audio-playing');
+        player.wave.classList.add('audio-paused');
+      }
+    }
+
+    async function toggleAudio(name) {
+      const player = audioPlayers[name];
+      const audio = player.audio;
+
+      if (audio.paused) {
+        // Keep the two recordings from playing over each other.
+        Object.keys(audioPlayers).forEach(otherName => {
+          if (otherName !== name) {
+            audioPlayers[otherName].audio.pause();
+          }
+        });
+
+        try {
+          await audio.play();
+        } catch (error) {
+          player.status.textContent = 'Could not play audio. Check the file.';
+          console.error(`Unable to play ${name} audio:`, error);
+        }
+      } else {
+        audio.pause();
+      }
+    }
+
+    function seekAudio(name) {
+      const player = audioPlayers[name];
+      const audio = player.audio;
+
+      if (Number.isFinite(audio.duration) && audio.duration > 0) {
+        audio.currentTime = (Number(player.seek.value) / 100) * audio.duration;
+      }
+    }
+
+    Object.entries(audioPlayers).forEach(([name, player]) => {
+      const audio = player.audio;
+
+      audio.addEventListener('loadedmetadata', () => {
+        updateAudioDisplay(name);
+        player.status.textContent = 'Ready when you are';
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        updateAudioDisplay(name);
+      });
+
+      audio.addEventListener('play', () => {
+        setAudioPlaying(name, true);
+        player.status.textContent = 'Playing...';
+      });
+
+      audio.addEventListener('pause', () => {
+        setAudioPlaying(name, false);
+
+        if (!audio.ended) {
+          player.status.textContent = 'Paused';
+        }
+      });
+
+      audio.addEventListener('ended', () => {
+        setAudioPlaying(name, false);
+        player.status.textContent = 'Finished. Listen again?';
+        audio.currentTime = 0;
+        updateAudioDisplay(name);
+      });
+
+      audio.addEventListener('error', () => {
+        player.status.textContent = 'Audio unavailable. Check the file path.';
+      });
+    });
+
+    /* UNRECORDED MEMORIES */
+    const unrecordedMemories = [
+      'All those cinema outings where we dissected the plot after the credits rolled.',
+      'The post-movie lunches that lasted longer than anyone planned.',
+      'Seven jackets. I still think this deserves a formal investigation.',
+      'Two journalists, countless outings, and somehow almost no pictures together.',
+      'If we ever need evidence of this friendship, we may have to rely entirely on witness testimony.'
+    ];
+
+    let currentUnrecordedIdx = -1;
+
+    function revealNextUnrecordedNote() {
+      currentUnrecordedIdx =
+        (currentUnrecordedIdx + 1) % unrecordedMemories.length;
+
+      const note = document.getElementById('unrecordedNote');
+      const index = document.getElementById('unrecordedIndex');
+
+      note.style.opacity = '0';
+
+      setTimeout(() => {
+        note.textContent = `"${unrecordedMemories[currentUnrecordedIdx]}"`;
+        index.textContent = currentUnrecordedIdx + 1;
+        note.style.opacity = '1';
+      }, 200);
+    }
+
+    /* OPEN LETTER */
+    function unfoldLetter() {
+      const seal = document.getElementById('waxSealBox');
+      const letter = document.getElementById('unfoldedLetter');
+
+      letter.hidden = false;
+      seal.setAttribute('aria-expanded', 'true');
+      seal.hidden = true;
+
+      letter.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+
+    /* BIRTHDAY SURPRISE */
+    function triggerSurprise() {
+      const message = document.getElementById('surpriseMessage');
+      const button = document.getElementById('surpriseBtn');
+
+      message.hidden = !message.hidden;
+      button.setAttribute('aria-expanded', String(!message.hidden));
+
+      if (!message.hidden) {
+        message.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest'
+        });
+      }
+    }
+
+    /* POST-CREDITS */
+    function togglePostCredits() {
+      const box = document.getElementById('postCreditsBox');
+      const button = document.getElementById('postCreditsButton');
+
+      box.hidden = !box.hidden;
+      button.setAttribute('aria-expanded', String(!box.hidden));
+    }
+
+    /* AMBIENT DUST EFFECT */
+    const canvas = document.getElementById('dustCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let particles = [];
+    let animationFrame;
+
+    function resizeCanvas() {
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+
+      canvas.width = window.innerWidth * pixelRatio;
+      canvas.height = window.innerHeight * pixelRatio;
+
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+
+      ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+
+      particles = Array.from({ length: 30 }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        radius: Math.random() * 1.2 + 0.3,
+        alpha: Math.random() * 0.4 + 0.1,
+        vy: -Math.random() * 0.2 - 0.05
+      }));
+    }
+
+    function renderDust() {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      particles.forEach(particle => {
+        particle.y += particle.vy;
+
+        if (particle.y < 0) {
+          particle.y = window.innerHeight;
+          particle.x = Math.random() * window.innerWidth;
+        }
+
+        ctx.beginPath();
+        ctx.arc(
+          particle.x,
+          particle.y,
+          particle.radius,
+          0,
+          Math.PI * 2
+        );
+
+        ctx.fillStyle = `rgba(212, 175, 55, ${particle.alpha})`;
+        ctx.fill();
+      });
+
+      animationFrame = requestAnimationFrame(renderDust);
+    }
+
+    resizeCanvas();
+    renderDust();
+
+    window.addEventListener('resize', resizeCanvas);
+
+    /* Respect reduced-motion preferences. */
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      cancelAnimationFrame(animationFrame);
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    }
+  </script>
 
 </body>
 </html>
