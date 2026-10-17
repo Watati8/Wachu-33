@@ -258,44 +258,34 @@
         </p>
       </div>
 
-      <div id="openingAudioBox" class="bg-parchment-card/80 border border-parchment-border/80 rounded-2xl p-6 md:p-8 shadow-xl space-y-4">
+      <!-- AUDIO PLAYER 1: OPENING VOICE NOTE -->
+    <section class="space-y-4 max-w-xl mx-auto">
+      <div class="text-center space-y-1">
+        <span class="text-xs font-sans text-parchment-accent tracking-widest uppercase">Prologue</span>
+        <h2 class="font-serif text-2xl text-parchment-text font-normal italic">An Opening Note</h2>
+      </div>
 
-        <audio id="openingAudio" preload="metadata">
-          <source src="opening.mp3" type="audio/mpeg">
-          Your browser does not support audio playback.
-        </audio>
+      <!-- Player Box -->
+      <div class="bg-parchment-card/80 border border-parchment-border/80 rounded-2xl p-5 md:p-6 backdrop-blur-sm shadow-xl space-y-3">
+        
+        <!-- Audio Element pointing directly to opening.mp3 in the repo -->
+        <audio id="audioOpening" src="opening.mp3" preload="metadata"></audio>
 
         <div class="flex items-center gap-4">
-
-          <button
-            id="openingPlayBtn"
-            onclick="toggleAudio('opening')"
-            aria-label="Play opening narration"
-            class="w-12 h-12 rounded-full border border-parchment-accent/50 hover:border-parchment-accent bg-parchment-accent/10 hover:bg-parchment-accent/20 flex items-center justify-center text-parchment-accent transition-all duration-300 shrink-0"
-          >
-            <i id="openingPlayIcon" class="fas fa-play text-sm ml-0.5"></i>
+          <button id="btnPlayOpening" onclick="togglePlay('audioOpening', 'btnPlayOpening', 'statusOpening', 'waveOpening', 'seekOpening', 'timeOpening')" class="w-11 h-11 rounded-full border border-parchment-accent/50 hover:border-parchment-accent bg-parchment-accent/10 hover:bg-parchment-accent/20 flex items-center justify-center text-parchment-accent transition-all duration-300 shrink-0">
+            <i class="fas fa-play text-xs ml-0.5"></i>
           </button>
 
-          <div class="flex-1 min-w-0 space-y-2">
-
-            <div class="flex justify-between gap-3 text-xs font-sans text-parchment-muted">
-              <span id="openingStatus" aria-live="polite">Ready when you are</span>
-              <span id="openingTime">0:00 / 0:00</span>
+          <div class="flex-1 space-y-2">
+            <div class="flex justify-between text-xs font-sans text-parchment-muted">
+              <span id="statusOpening">Listen to opening audio</span>
+              <span id="timeOpening">0:00 / 0:00</span>
             </div>
+            
+            <input type="range" id="seekOpening" value="0" min="0" max="100" class="w-full h-1" oninput="seekAudio('audioOpening', this.value)">
 
-            <input
-              id="openingSeek"
-              type="range"
-              min="0"
-              max="100"
-              value="0"
-              step="0.1"
-              aria-label="Seek opening narration"
-              class="w-full accent-yellow-600 cursor-pointer"
-              oninput="seekAudio('opening')"
-            >
-
-            <div id="openingWave" class="flex items-center gap-1.5 h-6 audio-paused">
+            <!-- Waveform Animation -->
+            <div id="waveOpening" class="flex items-center gap-1 h-4 pt-1">
               <div class="wave-bar w-1 bg-parchment-accent/40 rounded-full"></div>
               <div class="wave-bar w-1 bg-parchment-accent/60 rounded-full"></div>
               <div class="wave-bar w-1 bg-parchment-accent/80 rounded-full"></div>
@@ -303,10 +293,14 @@
               <div class="wave-bar w-1 bg-parchment-accent/70 rounded-full"></div>
               <div class="wave-bar w-1 bg-parchment-accent/50 rounded-full"></div>
               <div class="wave-bar w-1 bg-parchment-accent/30 rounded-full"></div>
-              <div class="flex-1 h-px bg-parchment-border ml-2"></div>
             </div>
-
           </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ink-line-subtle"></div>
+        
         </div>
 
         <p class="text-xs font-sans text-parchment-muted/70 italic text-center pt-2">
@@ -672,56 +666,36 @@
         </p>
       </div>
 
-      <div class="bg-parchment-card/80 border border-parchment-border/80 rounded-2xl p-6 md:p-8 shadow-xl space-y-4">
+      <!-- Audio Element pointing directly to letter.mp3 in the repo -->
+          <audio id="audioLetter" src="letter.mp3" preload="metadata"></audio>
 
-        <audio id="letterAudio" preload="metadata">
-          <source src="letter.mp3" type="audio/mpeg">
-          Your browser does not support audio playback.
-        </audio>
+          <div class="flex items-center gap-4">
+            <button id="btnPlayLetter" onclick="togglePlay('audioLetter', 'btnPlayLetter', 'statusLetter', 'waveLetter', 'seekLetter', 'timeLetter')" class="w-11 h-11 rounded-full border border-parchment-accent/50 hover:border-parchment-accent bg-parchment-accent/10 hover:bg-parchment-accent/20 flex items-center justify-center text-parchment-accent transition-all duration-300 shrink-0">
+              <i class="fas fa-play text-xs ml-0.5"></i>
+            </button>
 
-        <div class="flex items-center gap-4">
+            <div class="flex-1 space-y-2">
+              <div class="flex justify-between text-xs font-sans text-parchment-muted">
+                <span id="statusLetter">Listen to letter voice note</span>
+                <span id="timeLetter">0:00 / 0:00</span>
+              </div>
+              
+              <input type="range" id="seekLetter" value="0" min="0" max="100" class="w-full h-1" oninput="seekAudio('audioLetter', this.value)">
 
-          <button
-            id="letterPlayBtn"
-            onclick="toggleAudio('letter')"
-            aria-label="Play birthday letter narration"
-            class="w-12 h-12 rounded-full border border-parchment-accent/50 hover:border-parchment-accent bg-parchment-accent/10 hover:bg-parchment-accent/20 flex items-center justify-center text-parchment-accent transition-all duration-300 shrink-0"
-          >
-            <i id="letterPlayIcon" class="fas fa-play text-sm ml-0.5"></i>
-          </button>
-
-          <div class="flex-1 min-w-0 space-y-2">
-
-            <div class="flex justify-between gap-3 text-xs font-sans text-parchment-muted">
-              <span id="letterStatus" aria-live="polite">Ready when you are</span>
-              <span id="letterTime">0:00 / 0:00</span>
+              <!-- Waveform Animation -->
+              <div id="waveLetter" class="flex items-center gap-1 h-4 pt-1">
+                <div class="wave-bar w-1 bg-parchment-accent/40 rounded-full"></div>
+                <div class="wave-bar w-1 bg-parchment-accent/60 rounded-full"></div>
+                <div class="wave-bar w-1 bg-parchment-accent/80 rounded-full"></div>
+                <div class="wave-bar w-1 bg-parchment-accent rounded-full"></div>
+                <div class="wave-bar w-1 bg-parchment-accent/70 rounded-full"></div>
+                <div class="wave-bar w-1 bg-parchment-accent/50 rounded-full"></div>
+                <div class="wave-bar w-1 bg-parchment-accent/30 rounded-full"></div>
+              </div>
             </div>
-
-            <input
-              id="letterSeek"
-              type="range"
-              min="0"
-              max="100"
-              value="0"
-              step="0.1"
-              aria-label="Seek birthday letter narration"
-              class="w-full accent-yellow-600 cursor-pointer"
-              oninput="seekAudio('letter')"
-            >
-
-            <div id="letterWave" class="flex items-center gap-1.5 h-6 audio-paused">
-              <div class="wave-bar w-1 bg-parchment-accent/40 rounded-full"></div>
-              <div class="wave-bar w-1 bg-parchment-accent/60 rounded-full"></div>
-              <div class="wave-bar w-1 bg-parchment-accent/80 rounded-full"></div>
-              <div class="wave-bar w-1 bg-parchment-accent rounded-full"></div>
-              <div class="wave-bar w-1 bg-parchment-accent/70 rounded-full"></div>
-              <div class="wave-bar w-1 bg-parchment-accent/50 rounded-full"></div>
-              <div class="wave-bar w-1 bg-parchment-accent/30 rounded-full"></div>
-              <div class="flex-1 h-px bg-parchment-border ml-2"></div>
-            </div>
-
           </div>
         </div>
+      </div>
 
         <p class="text-xs font-sans text-parchment-muted/70 italic text-center pt-2">
           No rush. This one is worth listening to properly.
